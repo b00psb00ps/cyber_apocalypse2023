@@ -8,7 +8,7 @@
 [drobots](web/drobots/README.md)\
 [passman](web/passman/README.md)\
 [orbital](web/orbital/README.md)\
-[didactic_octo_paddles]()
+[didactic_octo_paddles](web/didactic_octo_paddles/README.md)
 
 ## misc
 

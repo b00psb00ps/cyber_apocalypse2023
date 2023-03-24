@@ -22,12 +22,18 @@ We can also see that the admin page is calling the function AdminMiddleware -- s
 ![adminmiddleware-src](adminmiddleware_jwt-decode.png)
 
 It looks like the authentication is only checking explicitly for **"none"** or HS256 as the JWT algorithms. Since it's explicitly only checking *"none"* we should be able to get away with CVE-2015-9235, so lets try that.
-![original-JWT](decoded-jwt.png) ![modified-JWT](modified-jwt.png)
 
-We want to grab our current JWT, and modify the "alg" to "None", as well as modify our "id" to "1" to spoof admin.
+Our decoded JWT;
+![original-JWT](decoded-jwt.png)
 
-So now we want to craft a GET request to the /admin page using our modified JWT (remember to keep the trailing period on our nwe token).
-![get-admin-page](get-admin.png) ![admin-page](admin.png)
+We want to grab our current JWT, and modify the "alg" to "None", as well as modify our "id" to "1" to spoof admin;
+![modified-JWT](modified-jwt.png)
+
+So now we want to craft a GET request to the /admin page using our modified JWT (remember to keep the trailing period on our JWT token);
+![get-admin-page](get-admin.png)
+
+Admin page;
+![admin-page](admin.png)
 
 We don't see much here except a list of active users. Wandering back to our source code we find something really interesting in the admin.jsrender;
 ![ssti-vuln](ssti.png)
@@ -37,6 +43,7 @@ It looks like jsrender is evaluating usernames without sanitization, which leads
 So let's find a jsrender specific payload for ssti, modify it to read /flag.txt, then register that as a new user.
 
 Final payload *(don't forget to escape our double quotes with a backslash)*;
+
 `{{:\"pwnd\".toString.constructor.call({},\"return global.process.mainModule.constructor._load('child_process').execSync('cat /flag.txt').toString()\")()}}`
 
 ![ssti-payload](ssti-payload.png)
