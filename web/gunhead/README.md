@@ -14,7 +14,9 @@ Navigating to the site, right away we can see a shell is hosted.
 The first thing we'll want to do is test sanitization of user input.
 
 Running the help command we see what commands we have available to us. Se the first thing we try is adding a semicolon followed by our command to execute;
+
 ![sanitization-check](flag.png)
+
 
 And just like that we obtained our flag
 
