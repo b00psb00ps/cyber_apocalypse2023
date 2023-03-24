@@ -16,6 +16,7 @@ One ) We see a "/register" POST function, so we have a vector to access the site
 ![register-src](register_src-code.png) ![register](register.png)
 
 Two ) We find a "hidden" admin page;
+
 ![admin-src](admin-page_index.png)
 
 We can also see that the admin page is calling the function AdminMiddleware -- so let's check out what that does;
@@ -24,6 +25,7 @@ We can also see that the admin page is calling the function AdminMiddleware -- s
 It looks like the authentication is only checking explicitly for **"none"** or HS256 as the JWT algorithms. Since it's explicitly only checking *"none"* we should be able to get away with CVE-2015-9235, so lets try that.
 
 Our decoded JWT;
+
 ![original-JWT](decoded-jwt.png)
 
 We want to grab our current JWT, and modify the "alg" to "None", as well as modify our "id" to "1" to spoof admin;
@@ -33,6 +35,7 @@ So now we want to craft a GET request to the /admin page using our modified JWT 
 ![get-admin-page](get-admin.png)
 
 Admin page;
+
 ![admin-page](admin.png)
 
 We don't see much here except a list of active users. Wandering back to our source code we find something really interesting in the admin.jsrender;
